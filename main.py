@@ -1,65 +1,20 @@
-import pandas as pd
-class Item:
-    ### Global attribute for all the class -- inherintance
-    pay_rate = 0.8 # Pay rate after 20% discount
-    all = [] # List of items
-    def __init__(self,name: str="Phone",price: float=100,quantity: int=5):
-        ### Run validation to the received args 
-        assert price>= 0, f"Price {price} is not greater or equal to zero!"
-        assert quantity >=0
-        
-        ### Constructor -- magic methods
-        self.name = name
-        self.price = price
-        self.quantity = quantity
-        Item.all.append(self)
-    def __str__(self):
-        ### Str method to print an instance
-        print("name:",self.name)
-        print("price:",self.price)
-        print('quantity:',self.quantity)
-        return """"""
+from item import Item
 
-    def __repr__(self):
-        # return str(self.__dict__)
-        ## best practice to understand how show what have been created
-        return f"Item('{self.name}','{self.price}',{self.quantity}')"
+Item.instantiate_from_csv()
 
-    def calculate_total_price(self):
-        return self.quantity*self.price
-    def apply_discount(self):
-        """Apply discount with discount rate for the attribute"""
-        self.price = self.price*self.pay_rate ## Accessing pay rate linked to class
-        ### Doing this enable also to overwrite pay rate for a specific instance
-    @classmethod
-    def instantiate_from_csv(cls):
-        df = pd.read_csv("item.csv")
-        for i in range(len(df)):
-            name = df.loc[i,"name"]
-            price = df.loc[i,"price"]
-            quantity = df.loc[i,"quantity"]
-            Item(name,price,quantity)
+# print(Item.all)
+item1 = Item("test",110)
+print(item1.name)
 
-class Phone(Item):
-    all = []
-    ## Phone class inherits from Item
-    def __init__(self, name: str = "Phone", price: float = 100, quantity: int = 5,broken_phones: int=0):
-        super().__init__(name=name, price=price, quantity=quantity)
-        ### Super allow us to access all the parent attributes
-        assert broken_phones>=0, f"Broken phones {broken_phones} is not greater or equal to 0"
-        self.broken_phones = broken_phones
-        Phone.all.append(self)
-    def __repr__(self):
-        # return str(self.__dict__)
-        ## best practice to understand how show what have been created
-        return f"{('{self.name}','{self.price}',{self.quantity}','{self.broken_phones}')"
+## Setting an attribute
+item1.name="TEst"
+## Getting an attribute
+print(item1.name)
 
-
-
-phone1 = Phone("jscPhonev10",500,5,0)
-print(phone1.calculate_total_price())
-phone2 = Phone("jscPhonev20",700,5,1)
-print(Phone.all)
+# phone1 = Phone("jscPhonev10",500,5,0)
+# print(phone1.calculate_total_price())
+# phone2 = Phone("jscPhonev20",700,5,1)
+# print(Phone.all)
 
 
 
